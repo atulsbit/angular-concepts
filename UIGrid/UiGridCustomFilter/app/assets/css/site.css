@@ -1,0 +1,123 @@
+﻿/*#region Ui-Grid MultiSelect*/
+
+ul[style] {
+    overflow: auto !important;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin: 0px 0 0;
+}
+
+.radio, .checkbox {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.dropdown-menu > li > a {
+    padding: 3px 10px;
+}
+
+.dropdown-menu {
+    font-size: calc(0.3em + .45vw) !important;
+}
+
+.filterBtn {
+    font-size: 9px;
+    padding: 5px 3px;
+}
+
+/*#endregion Ui-Grid MultiSelect*/
+
+/*#region Ui-Grid*/
+
+.ui-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+
+.ui-grid-header-cell-row, .ui-grid-header-cell, ui-grid-header-cell-center, .ui-grid-cell-contents {
+    font-size: calc(0.3em + .45vw) !important;
+}
+
+div.ui-grid-cell input[type="checkbox"] {
+    margin: 0px 0 0 6px;
+    width: auto;
+}
+
+.ui-grid-header, .ui-grid-header-canvas {
+    text-align: left;
+    vertical-align: bottom;
+}
+
+.ui-grid-header-cell-row, .ui-grid-header-cell {
+    padding-right: 15px;
+}
+
+.ui-grid-cell-contents > a {
+    cursor: pointer;
+    cursor: hand;
+}
+
+.ui-grid-header-cell-center {
+    text-align: left;
+}
+
+.ui-grid-header-cell .ui-grid-cell-contents {
+    height: 48px;
+    word-wrap: break-word;
+    white-space: normal;
+    -ms-text-overflow: clip;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    overflow: visible;
+    line-height: 14px;
+}
+
+.ui-grid-number-cell {
+    text-align: right;
+}
+
+.ui-grid-bg-red {
+    background-color: red !important;
+}
+
+    .ui-grid-bg-red > div {
+        text-align: right !important;
+        color: white !important;
+        font-weight: bolder !important;
+        border-bottom: solid gray;
+    }
+
+    .ui-grid-bg-red a {
+        text-align: right !important;
+        color: white !important;
+        font-weight: bolder !important;
+    }
+
+.ui-grid-viewport {
+    overflow-x: hidden !important;
+}
+
+.ui-grid-column-menu-button-last-col {
+    margin-right: 0 !important;
+}
+
+.ui-grid-header-viewport {
+    overflow: visible !important;
+}
+
+.ui-grid-top-panel {
+    overflow: visible !important;
+}
+
+.ui-grid-filter-container {
+    padding: 2px 4px;
+    position: relative;
+}
+
+
+/*#endregion Ui-Grid*/
