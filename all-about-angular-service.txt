@@ -1,0 +1,114 @@
+-------------------------In Memory of Anil Agarwal Sir-----------------Angular in brackets-------
+Source:https://www.c-sharpcorner.com/article/create-services-in-angular-application/
+What is dependecy Injection and why do we use it ?
+ 
+Dependency Injection (DI) is a mechanism where the required resources will be injected into the code automatically. Angular comes with a in-built dependency injection subsystem. 
+DI allows developers to reuse the code across application. 
+DI makes the application development and testing much easier.
+DI makes the code loosely coupled.
+DI allows the developer to ask for the dependencies from Angular. There is no need for the developer to explicitly create/instantiate them.
+
+--------------
+What is Service and why do we use it?
+A service in Angular is a class which contains some functionality that can be reused across the application. A service is a singleton object. Angular services are a mechanism of abstracting shared code and functionality throughout the application.
+Angular Services come as objects which are wired together using dependency injection.
+Angular provides a few inbuilt services. We can also create custom services.
+
+Why Services?
+Services can be used to share the code across components of an application.
+Services can be used to make HTTP requests.
+-------------------
+***Creating a Service***
+ 
+Create a service class using the following command.
+ng generate service Article 
+
+The above command will create a service class (article.service.ts) as shown below. 
+import { Injectable } from '@angular/core';    
+    
+@Injectable({    
+  providedIn: 'root'            // providedIn property registers articleService at the root level (app module).
+})    
+export class ArticleService {    
+    
+  constructor() { }    
+}   
+
+F.N. - @Injectable() decorator makes the class injectable into application components.
+
+**Providing a Service**
+ 
+Services can be provided in an Angular applications in any of the following ways:
+ 
+The first way  to register service is to specify providedIn property using @Injectable decorator. 
+This property is added by default when you generate a service using Angular CLI.
+
+When the ArticleService is provided at the root level, Angular creates a singleton instance of the service class 
+and injects the same instance into any class that uses this service class. In addition, Angular also optimizes the 
+application if registered through providedIn property by removing the service class if none of the components use it. 
+
+There is also a way to limit the scope of the service class by registering it in the providers' property inside 
+@Component decorator. Providers in component decorator and module decorator are independent. Providing a service 
+class inside component creates a separate instance for that component and its nested components. 
+
+Add the below code in app.components.ts,
+
+import { Component } from '@angular/core';    
+import { ArticleService } from './article.service';    
+@Component({    
+  selector: 'app-root',    
+  templateUrl: './app.component.html',    
+  styleUrls: ['./app.component.css'],    
+  providers : [ArticleService]       //Providing a service class inside component creates a separate instance for that component and its nested components. 
+})    
+export class AppComponent {    
+  title = 'FormsProject';    
+}  
+
+Services can also be provided across the application by registering it using providers property in @Ngmodule 
+decorator of any module.
+
+import { BrowserModule } from '@angular/platform-browser';    
+import { NgModule } from '@angular/core';    
+import { ReactiveFormsModule } from '@angular/forms';    
+import { AppRoutingModule } from './app-routing.module';    
+import { AppComponent } from './app.component';    
+import {Form, FormsModule} from '@angular/forms';    
+import { ArticleFormComponent } from './article-form/article-form.component';    
+import { RegistrationFormComponent } from './registration-form/registration-form.component';    
+import { ArticleService } from './article.service';    
+@NgModule({    
+  declarations: [    
+    AppComponent,    
+    ArticleFormComponent,    
+    RegistrationFormComponent    
+  ],    
+  imports: [    
+    BrowserModule,    
+    AppRoutingModule,    
+    FormsModule,    
+    ReactiveFormsModule    
+  ],    
+  providers: [ArticleService],    //When the service class is added in the providers property of the root module, all the directives and components will have access to the same instance of the service. 
+  bootstrap: [AppComponent]    
+})    
+export class AppModule { } 
+
+***Injecting a Service***
+The only way to inject a service into a component/directive or any other class is through a constructor. 
+Add a constructor in a component class with service class as an argument as shown below,
+F.N. - Here, ArticleService will be injected into the component through constructor injection by the framework. 
+
+import { Component } from '@angular/core';    
+import { ArticleService } from './article.service';    
+@Component({    
+  selector: 'app-root',    
+  templateUrl: './app.component.html',    
+  styleUrls: ['./app.component.css'],    
+  providers : [ArticleService]    
+})    
+export class AppComponent {    
+  title = 'FormsProject';    
+    
+  constructor(private articleService: ArticleService){ }    
+}    
