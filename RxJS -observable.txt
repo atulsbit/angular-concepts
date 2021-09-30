@@ -1,0 +1,53 @@
+What is RxJS?- .... RxJS Observables - What Problem Do They Solve?
+(offer a jargon-free explanation on RxJS Observables - why do we need them, what are they good for and what problem do they solve)
+source - https://medium.com/duomly-blockchain-online-courses/understand-how-rxjs-observables-and-subjects-work-and-whats-the-difference-between-them-13d9b047dd94
+RxJS is a library supporting reactive programming, very often used with an Angular framework. It provides an Observable class that helps to compose asynchronous and event-based programs. Besides Observable, RxJS comes with operators for handling asynchronous events.
+What makes RxJS more powerful is producing values using the pure function, and because of that, the code is less liable to errors.
+The most important concepts in RxJS for asynchronous event handling are Observables, Observers, Subjects, Subscriptions, Operators, and Schedulers.
+
+Push and pull model
+
+Push Model - data producers decide when to send values to data consumers, and data consumers have no idea when data will come.
+This model is used in Promises, where the promise is a data producer, which is sending data to the callback. 
+Callback doesn’t know when it will receive data, and it relay totally on the data producer.
+
+Pull Model -data consumer decides when it wants to get data from the data producer. In this model, data producers have no decision power about delivering data.
+e.g. the function that returns some value, and the function is a data producer in this case. It doesn’t decide when the data will be returned or send.
+
+What is Observable?
+
+Observable is a new way of handling asynchronous requests, just like Promises or callbacks. Concerning push and pull models, Observables is a push collection of multiple values.
+Observable pass four stages during their lifecycle: creation, subscription, execution, and destruction.
+
+Create an Observable
+There are many ways to create Observables, but the most common is using new Observable or Observable.create() methods.
+
+import { Observable } from 'rxjs';
+const myObservable = new Observable(observer => {
+  setTimeout(() => {
+    observer.next('Hello world!');
+  }, 2000);
+});
+
+A new Observable is created and assigned to the myObservable constant. This Observable will emit the string Hello world! every two seconds to a subscriber.
+
+Observable class constructor takes a function as a parameter, and that function has an observer object inside.
+
+What is Observer
+The observer is a consumer of values delivered by the Observable.
+
+const observer = {
+  next: value => console.log('Observer got the next value:' + value),
+  error: error => console.log('Observer got an erro:r' + error),
+  complete:() => console.log('Observer got a complete notification'),
+};
+
+the observer object has three values: next, error and complete, and a callback with the value for each type of the notification.
+
+Subscribe to Observable
+A subscription is an object that represents a disposable resource. When the Observable is executed, the subscription gets new resources. Subscription has one important method .unsubscribe() and it doesn't take any params; it just removes values kept in the Subscription object.
+To make our Observable working, we have to subscribe to it, using .subscribe() method. We can compare subscribing Observable, to calling the function. We can pass the observer object as a parameter of the .subscribe method. Let's take a look at the code below.
+myObservable.subscribe(observer);
+// Result
+Observer got the next value: Hello world!
+

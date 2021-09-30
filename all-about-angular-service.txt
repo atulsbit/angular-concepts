@@ -40,12 +40,14 @@ F.N. - @Injectable() decorator makes the class injectable into application compo
  
 Services can be provided in an Angular applications in any of the following ways:
  
-The first way  to register service is to specify providedIn property using @Injectable decorator. 
+The first way  to register provider (of service) is to specify providedIn property using @Injectable decorator. 
 This property is added by default when you generate a service using Angular CLI.
 
 When the ArticleService is provided at the root level, Angular creates a singleton instance of the service class 
 and injects the same instance into any class that uses this service class. In addition, Angular also optimizes the 
 application if registered through providedIn property by removing the service class if none of the components use it. 
+Registering the provider in the @Injectable() metadata also allows Angular to optimize an app by removing the service
+from the compiled application if it isn't used, a process known as tree-shaking.
 
 There is also a way to limit the scope of the service class by registering it in the providers' property inside 
 @Component decorator. Providers in component decorator and module decorator are independent. Providing a service 
@@ -112,3 +114,6 @@ export class AppComponent {
     
   constructor(private articleService: ArticleService){ }    
 }    
+
+========================================================================================================
+Communicating with backend services using HTTP:

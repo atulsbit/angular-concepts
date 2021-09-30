@@ -1,0 +1,43 @@
+https://angular.io/guide/architecture-modules
+Introduction to modules:==>
+Angular applications are modular and Angular has its own modularity system called NgModules.
+Every Angular application has at least one NgModule class, the root module, which is conventionally named AppModule and resides in a file named app.module.ts. 
+You launch your application by bootstrapping the root NgModule.
+
+NgModule metadata:
+-------------------
+An NgModule is defined by a class decorated with @NgModule(). The @NgModule() decorator is a function that takes a single metadata object, whose properties describe the module. 
+The most important properties are as follows.
+declarations: The components, directives, and pipes that belong to this NgModule.
+
+exports: The subset of declarations that should be visible and usable in the component templates of other NgModules.
+
+imports: Other modules whose exported classes are needed by component templates declared in this NgModule.
+
+providers: Creators of services that this NgModule contributes to the global collection of services; they become accessible in all parts of the application. (You can also specify providers at the component level.)
+
+bootstrap: The main application view, called the root component, which hosts all other application views. Only the root NgModule should set the bootstrap property.
+
+NgModules and components==>
+NgModules provide a compilation context for their components. A root NgModule always has a root component that is created during bootstrap, 
+but any NgModule can include any number of additional components, which can be loaded through the router or created through the template. 
+The components that belong to an NgModule share a compilation context.
+
+Note: The hierarchical structure of views is a key factor in the way Angular detects and responds to changes in the DOM and application data.
+
+NgModules and JavaScript modules:=>
+The NgModule system is different from and unrelated to the JavaScript (ES2015) module system for managing collections of JavaScript objects.
+In JavaScript each file is a module and all objects defined in the file belong to that module.
+
+Angular libraries:=>
+Angular loads as a collection of JavaScript modules. You can think of them as library modules. Each Angular library name begins with the @angular prefix. 
+Install them with the node package manager npm and import parts of them with JavaScript import statements.
+
+Data binding:=>
+Without a framework, you would be responsible for pushing data values into the HTML controls and turning user responses into actions and value updates. 
+Writing such push and pull logic by hand is tedious, error-prone, and a nightmare to read, as any experienced front-end JavaScript programmer can attest.
+
+Angular supports two-way data binding, a mechanism for coordinating the parts of a template with the parts of a component. 
+Add binding markup to the template HTML to tell Angular how to connect both sides.
+
+Angular processes all data bindings once for each JavaScript event cycle, from the root of the application component tree through all child components.

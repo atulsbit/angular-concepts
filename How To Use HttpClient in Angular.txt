@@ -1,0 +1,204 @@
+Angular Basics: How To Use HttpClient in Angular:
+Source- https://www.telerik.com/blogs/angular-basics-how-to-use-httpclient
+
+Why do we need HttpClient?
+Features of HttpClient
+What is an RxJS observable?
+How to use HttpClient in Angular?
+
+Why Do We Need HttpClient?
+The front-end of applications communicate with back-end services to get or send the data over HTTP protocol using either XMLHttpRequest interface or fetch API.
+This communication is done in Angular with the help of HttpClient
+
+What Is HttpClient?
+HttpClient is a built-in service class available in the @angular/common/http package. It has multiple signature and return types for each request. It uses the RxJS observable-based APIs, which means it returns the observable and what we need to subscribe it. This API was developed based on XMLHttpRequest interface exposed by browsers.
+
+Features of HttpClient
+Provides typed request and response objects
+Contains testability features
+Intercepts request and response
+Supports RxJS observable-based APIs
+Supports streamlined error handling
+Performs the GET, POST, PUT, DELETE operations
+
+What Is an RxJS Observable?
+An observable is a unique object similar to Promise and it helps to manage async code. It’s not from the JavaScript language, so to use it we need the most popular observable library, called RxJS (Reactive Extension for JavaScript). RxJS is a library for reactive programming using observables that makes it easier to compose asynchronous or callback-based code. Angular uses observables as an interface to handle the common asynchronous operations.
+
+Following are the points to consider when we use HttpClient and it returns the observables :
+
+When we subscribe, it will initiate the request, otherwise nothing happens.
+When the get() request returns successful, the observable emits the result and is then complete.
+When the get() request fails, the observable emits the error.
+
+How To Use HttpClient in Angular?
+Step 1: I have created the application with the help of angular-cli command ng new app-name.
+Step 2: Import or configure the HttpClientModule into the app.module.ts file
+Step 3: You can directly use the HttpClient in your component, but its best to access it via the service. We are creating a new service with the help of angular-cli command 
+		ng generate service service-name.
+Step 4: Inject the HttpClient in the service created in the previous step.
+Step 5: In this step we are going to fetch the data from the server with the help of HTTP GET request. For that, we are adding one method in the service name as getPosts—that method 
+		we are calling in the component.
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+providedIn: 'root'
+})
+
+export class HttpService {
+
+private url = 'https://my-json-server.typicode.com/JSGund/XHR-Fetch-Request-JavaScript/posts';
+
+constructor(private http: HttpClient) { }
+
+getPosts() {
+return this.http.get(this.url);
+}
+}
+
+Step 6: Let’s understand the HTTP GET request and its request and response objects. The HTTP GET request has around 15 different types of methods to use.
+
+get<T>(url: string, options?: { headers?: [HttpHeaders];
+context?: [HttpContext];
+observe?: "body";       //default
+params?: [HttpParams];
+reportProgress?: boolean;
+responseType?: "json";		//default - refer -https://angular.io/guide/http
+withCredentials?: boolean;
+}): Observable<T>
+
+T ==>  To specify the response object type, first define an interface with the required properties. Use an interface rather than a class, 
+	   because the response is a plain object that cannot be automatically converted to an instance of a class.
+	   
+Parameters of get<T>:
+
+url – It is the service/API endpoint URL of type string.
+options – It is used to configure the HTTP request. It is optional and of type object, and its default value is undefined.
+options: 
+{ 
+	headers?: [HttpHeaders],
+	observe?: 'body' | 'events' | 'response',  
+	params?:  [HttpParams],
+	reportProgress?:  boolean, 
+	responseType?: 'arraybuffer'|'blob'|'json'|'text', 
+	withCredentials?:  boolean,  
+}
+
+Below two are important options properties:
+
+observe: How much of the response to return.
+responseType: The return data format.
+
+
+Returns
+HTTP GET returns an observable of the HttpResponse.
+
+Step 7: In this step we are going to use the getPosts method in the component. For that, first we need to inject the created service into our component and access the method 
+		as shown below:
+
+import { Component } from '@angular/core';
+import { HttpService } from './http.service';
+
+@Component({
+selector: 'app-root',
+templateUrl: './app.component.html',
+styleUrls: ['./app.component.css']
+})
+
+export  class  AppComponent {
+title = 'Article by Jeetendra';
+posts : any;
+constructor(private httpService: HttpService) { }
+
+ngOnInit() {
+	this.httpService.getPosts().subscribe(
+	(response) => { this.posts = response; },
+	(error) => { console.log(error); });
+}
+}
+
+In the above code we have injected the service first in constructor then the important thing is we call the getPosts method and subscribe to it. Whenever we get the response from this 
+subscribe method, it will be a list of object containing id, title, path, as shown below:
+
+Response
+
+[
+	{id:  1,  title:  "Angular Localization Using ngx-translate",  path:  "https://www.telerik.com/blogs/angular-localization-using-ngx-translate"},
+	{id:  2,  title:  "How to Use the Navigation or Shadow Property in Entity Framework Core",  path:  "https://www.telerik.com/blogs/how-to-use-the-navigation-or-shadow-property-in-entity-framework-core"},
+	{id:  3,  title:  "Getting Value from appsettings.json in .NET Core",  path:  "https://www.telerik.com/blogs/how-to-get-values-from-appsettings-json-in-net-core"},
+	{id:  4,  title:  "Embedding Beautiful Reporting into Your ASP.NET MVC Applications",  path:  "https://www.telerik.com/blogs/embedding-beautiful-reporting-asp-net-mvc-applications"},
+	{id:  5,  title:  "Select Tag Helper in ASP.NET Core MVC",  path:  "https://www.telerik.com/blogs/select-tag-helper-asp-net-core-mvc"}
+]
+We have declared the property as posts and assigned the response we get in the subscribe, then iterated that in HTML with the help of the *ngFor directive as the code below shows:
+
+<div>
+<li *ngFor="let post of posts">
+     <a  href="{{post.path}}">  
+         <span  style="font-size: 20px;text-align: center;">{{post.title}}                 
+          </span>
+    </a>
+</li>
+</div>
+
+Step 8: Finally, we have implemented our first HTTP request, that GET. Run the Angular application with help of angular-cli command ng serve, and you will get a message like, 
+“Angular Live Development Server is listening on localhost:4200. Open your browser on http://localhost:4200/.” Once you open the URL in your browser, you will get an output like 
+the image below.
+
+Example: HTTP GET request with the options parameter.
+
+HTTP Request
+
+this.http.get(this.url, { observe: 'response' });
+
+HTTP Response
+
+HttpResponse
+body:  (5) [{…},  {…},  {…},  {…},  {…}]
+headers: HttpHeaders {normalizedNames:  Map(0),  lazyUpdate:  null,  lazyInit:  ƒ}
+ok:  true
+status:  200
+statusText:  "OK"
+type:  4
+url:  "https://my-json-server.typicode.com/JSGund/XHR-Fetch-Request-JavaScript/posts"
+__proto__:  HttpResponseBase
+
+HTTP POST Request
+This request is used to send data from the application to the server, by using the signature below:
+
+post(url: string, body: any, options: { headers?: [HttpHeaders]; 
+context?: [HttpContext]; 
+observe?: "body"; 
+params?: [HttpParams]; 
+reportProgress?: boolean; 
+responseType: "text"; 
+withCredentials?: boolean;  }):  Observable<string>
+
+Parameters
+
+url: The back-end service url of type string.
+body: The content to send or replace with, of type any.
+options: The HTTP options of type object.
+
+Returns
+HTTP POST returns the observable response of type string.
+
+Example of POST request:
+
+const configUrl= 'http://localhost:3000/users';
+const params = new HttpParams({
+fromObject: { Name : 'name',
+Email : 'email',
+Role : 'role',
+Status : 'Inactive',
+MobileNumber : 1234567890
+}
+});
+
+var headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+
+//the HTTP post request
+return  this.http.post(configUrl, params, { headers });
+
+
+Next=========> https://www.dotnetcurry.com/angularjs/1448/angular-http-client-interceptors-headers-event?utm_source=dormosheio&utm_campaign=dormosheio

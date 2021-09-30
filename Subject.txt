@@ -1,0 +1,41 @@
+All about Subject:===============>
+A Subject is a special type of Observable that allows values to be multicasted to many Observers. Subjects are like EventEmitters.
+
+class Subject<T> extends Observable implements SubscriptionLike {
+  static create: (...args: any[]) => any
+  constructor()
+  closed: false
+  observers: Observer<T>[]
+  isStopped: false
+  hasError: false
+  thrownError: any
+  get observed
+  lift<R>(operator: Operator<T, R>): Observable<R>
+  next(value: T)
+  error(err: any)
+  complete()
+  unsubscribe()
+  asObservable(): Observable<T>
+ 
+  // inherited from index/Observable
+  static create: (...args: any[]) => any
+  constructor(subscribe?: (this: Observable<T>, subscriber: Subscriber<T>) => TeardownLogic)
+  source: Observable<any> | undefined
+  operator: Operator<any, T> | undefined
+  lift<R>(operator?: Operator<T, R>): Observable<R>
+  subscribe(observerOrNext?: Partial<Observer<T>> | ((value: T) => void), error?: (error: any) => void, complete?: () => void): Subscription
+  forEach(next: (value: T) => void, promiseCtor?: PromiseConstructorLike): Promise<void>
+  pipe(...operations: OperatorFunction<any, any>[]): Observable<any>
+  toPromise(promiseCtor?: PromiseConstructorLike): Promise<T | undefined>
+}
+
+Subclasses of Subject:
+BehaviorSubject
+ReplaySubject
+AsyncSubject
+
+example - https://www.youtube.com/watch?v=KPQ4wbtRUB4
+
+rxjs playground- https://rxjs-playground.github.io/
+https://rxviz.com/examples/higher-order-observable
+https://github.com/JayKan/RxJS-Playground
